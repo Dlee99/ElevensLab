@@ -53,18 +53,28 @@ public class Shuffler {
 	 */
 	public static void perfectShuffle(int[] values) {
 		int length = values.length;
-		int[] first = new int[length / 2];
-		int[] second;
+		int[] first;
+		int[] second = new int[length / 2];
 		if(length % 2 == 0){
-			second = new int[length / 2];
+			first = new int[length / 2];
 		}
 		else{
-			second = new int[length / 2 + 1];
+			first = new int[length / 2 + 1];
 		}
 		for(int i = 0; i < first.length; i++){
-
+			first[i] = values[2 * i];
+		}
+		for(int i = 0; i < second.length; i++){
+			second[i] = values[2 * i + 1];
+		}
+		for(int i = 0; i < first.length; i++){
+			values[i] = first[i];
+		}
+		for(int i = 0; i < second.length; i++){
+			values[i + first.length] = second[i];
 		}
 	}
+
 
 	/**
 	 * Apply an "efficient selection shuffle" to the argument.
@@ -78,6 +88,15 @@ public class Shuffler {
 	 * @param values is an array of integers simulating cards to be shuffled.
 	 */
 	public static void selectionShuffle(int[] values) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+		for(int k = values.length - 1; k > 0 ; k--){
+			int random = (int) (Math.random() * (k + 1));
+			swap(values, k, random);
+		}
+	}
+	public static void swap(int[] n, int first, int second){
+		int temp = n[first];
+		n[first] = n[second];
+		n[second] = temp;
+
 	}
 }
