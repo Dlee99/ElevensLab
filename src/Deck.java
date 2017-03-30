@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,12 +31,13 @@ public class Deck {
 	 */
 	public Deck(String[] ranks, String[] suits, int[] values) {
 		cards = new ArrayList<Card>();
-		for(int i = 0; i < ranks.length; i++){
-			for(int j = 0; j < suits.length; j++) {
-				cards.add(new Card(ranks[i], suits[j], values[i]));
+		for (int j = 0; j < ranks.length; j++) {
+			for (String suitString : suits) {
+				cards.add(new Card(ranks[j], suitString, values[j]));
 			}
 		}
-		size = ranks.length * suits.length;
+		size = cards.size();
+		shuffle();
 	}
 
 
@@ -47,9 +46,7 @@ public class Deck {
 	 * @return true if this deck is empty, false otherwise.
 	 */
 	public boolean isEmpty() {
-		if(size == 0)
-			return false;
-		return true;
+		return size == 0;
 	}
 
 	/**
@@ -64,27 +61,30 @@ public class Deck {
 	 * Randomly permute the given collection of cards
 	 * and reset the size to represent the entire deck.
 	 */
-	 public void shuffle() {
-  for(int k = cards.size() - 1; k > 0 ; k--){
-   int random = (int) (Math.random() * (k + 1));
-   swap(k, random);
-  }
- }
+	public void shuffle() {
+		for (int k = cards.size() - 1; k > 0; k--) {
+			int howMany = k + 1;
+			int start = 0;
+			int randPos = (int) (Math.random() * howMany) + start;
+			Card temp = cards.get(k);
+			cards.set(k, cards.get(randPos));
+			cards.set(randPos, temp);
+		}
+		size = cards.size();
+	}
 
- public void swap(int first, int second){
-  Card temp = cards.get(first);
-  cards.set(first, cards.get(second));
-  cards.set(second, temp);
-
- }
 	/**
 	 * Deals a card from this deck.
 	 * @return the card just dealt, or null if all the cards have been
 	 *         previously dealt.
 	 */
 	public Card deal() {
-		size = size - 1;
-		return cards.get(size);
+		if (isEmpty()) {
+			return null;
+		}
+		size--;
+		Card c = cards.get(size);
+		return c;
 	}
 
 	/**

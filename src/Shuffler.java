@@ -1,5 +1,3 @@
-package com.company;
-
 /**
  * This class provides a convenient way to test shuffling methods.
  */
